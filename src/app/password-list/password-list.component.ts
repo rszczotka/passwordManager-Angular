@@ -22,6 +22,7 @@ export class PasswordListComponent implements OnInit {
       .then(response => response.json())
       .then(data => this.passwords = data)
       .catch(error => console.error(error));
+    this.openDialog({ site_name: '', login: '', password: '' });
   }
 
   openDialog(password: LoginData) {
