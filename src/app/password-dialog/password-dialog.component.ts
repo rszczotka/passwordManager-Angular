@@ -45,19 +45,17 @@ export class PasswordDialogComponent implements AfterViewInit {
         console.log('Success:', data);
         this.passworChange.emit();
         this.modalInstance.hide();
-        this.removeModalBackdrop(); // Remove the modal backdrop
+        this.removeModalBackdrop();
       })
       .catch((error) => {
         console.error('Error:', error);
       });
   }
   onEdit(password: LoginData) {
-    this.isEditing = true; // Set isEditing to true when the "Edit" button is clicked
+    this.isEditing = true;
   }
 
   onSave() {
-    // Handle the "Save" button click here
-    // For example, you can send a request to the server to update the password
     fetch('http://localhost/PasswordManager/updatePassword.php', {
       method: 'PUT',
       headers: {
@@ -70,17 +68,16 @@ export class PasswordDialogComponent implements AfterViewInit {
         console.log('Success:', data);
         this.passworChange.emit();
         this.modalInstance.hide();
-        this.removeModalBackdrop(); // Remove the modal backdrop
+        this.removeModalBackdrop();
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-    this.isEditing = false; // Set isEditing back to false after saving
+    this.isEditing = false;
   }
 
   onCancel() {
-    // Handle the "Cancel" button click here
-    this.isEditing = false; // Set isEditing back to false without saving
+    this.isEditing = false; 
   }
   removeModalBackdrop() {
     document.body.classList.remove('modal-open');

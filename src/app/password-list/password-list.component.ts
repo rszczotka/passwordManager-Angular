@@ -27,7 +27,7 @@ export class PasswordListComponent implements OnInit {
     this.passwordDialog.show();
   }
   public loadPasswords() {
-    this.passwords = []; // Clear existing data
+    this.passwords = []; 
     fetch('http://localhost/PasswordManager/getAllPasswords.php')
       .then(response => response.json())
       .then(data => this.passwords = data)
