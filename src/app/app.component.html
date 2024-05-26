@@ -10,8 +10,8 @@
 
 <body>
     <app-navbar></app-navbar>
-    <app-password-creator></app-password-creator>
-    <app-password-list></app-password-list>
+    <app-password-creator (passwordCreated)="passwordList.loadPasswords()"></app-password-creator>
+    <app-password-list #passwordList></app-password-list>
 </body>
 
 </html>

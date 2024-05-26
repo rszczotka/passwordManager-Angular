@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { } from '@angular/common/http';
+import {PasswordListComponent} from '../password-list/password-list.component';
 
 
 @Component({
@@ -12,11 +13,15 @@ import { } from '@angular/common/http';
     styleUrl: './password-creator.component.css'
 })
 export class PasswordCreatorComponent implements OnInit {
+    @Output() passwordCreated = new EventEmitter<void>();
+
     passwordstrength: string = "";
     logindata: string = "";
     witryna: string = "";
     generatedPassword: string = ""; // Dodane pole do przechowywania wygenerowanego hasła
 
+
+    
     ngOnInit(): void {
         // Opcjonalny kod inicjalizujący komponent
     }
@@ -32,6 +37,7 @@ export class PasswordCreatorComponent implements OnInit {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                this.passwordCreated.emit(); // Emit the event when a password is created
             })
             .catch((error) => {
                 console.error('Error:', error);

@@ -18,15 +18,19 @@ export class PasswordListComponent implements OnInit {
   selectedPassword: LoginData | null = null;
 
   ngOnInit() {
-    fetch('http://localhost/PasswordManager/getAllPasswords.php')
-      .then(response => response.json())
-      .then(data => this.passwords = data)
-      .catch(error => console.error(error));
-    this.openDialog({ site_name: '', login: '', password: '' });
+    this.loadPasswords();
+    this.openDialog({ id: 0, site_name: '', login: '', password: '' });
   }
 
   openDialog(password: LoginData) {
     this.selectedPassword = password;
     this.passwordDialog.show();
+  }
+  public loadPasswords() {
+    this.passwords = []; // Clear existing data
+    fetch('http://localhost/PasswordManager/getAllPasswords.php')
+      .then(response => response.json())
+      .then(data => this.passwords = data)
+      .catch(error => console.error(error));
   }
 }

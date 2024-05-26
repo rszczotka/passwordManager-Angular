@@ -1,5 +1,5 @@
 // password-dialog.component.ts
-import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { LoginData } from '../loginData';
 import { CommonModule } from '@angular/common';
 import * as bootstrap from 'bootstrap';
@@ -10,10 +10,11 @@ declare module 'bootstrap';
   selector: 'app-password-dialog',
   standalone: true,
   templateUrl: './password-dialog.component.html',
-  imports: [CommonModule] 
+  imports: [CommonModule]
 })
 export class PasswordDialogComponent implements AfterViewInit {
   @Input() password!: LoginData | null;
+  @Output() passwordDeleted = new EventEmitter<void>();
   @ViewChild('passwordModal', { static: false }) passwordModal!: ElementRef;
   private modalInstance: any;
 
@@ -27,5 +28,32 @@ export class PasswordDialogComponent implements AfterViewInit {
 
   show() {
     this.modalInstance.show();
+  }
+  onSubmitDelete(password: LoginData) {
+    fetch('http://localhost/PasswordManager/deletePassword.php', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: password?.id }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        this.passwordDeleted.emit();
+        this.modalInstance.hide();
+        this.removeModalBackdrop(); // Remove the modal backdrop
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+  onEdit(password: LoginData) {
+    console.log("Edit");
+}
+  removeModalBackdrop() {
+    document.body.classList.remove('modal-open');
+    const backdrops = document.querySelectorAll('.modal-backdrop');
+    backdrops.forEach(backdrop => backdrop.remove());
   }
 }
